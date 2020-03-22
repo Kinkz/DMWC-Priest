@@ -127,6 +127,10 @@ end ]]
 ---DPS Code---
 --------------
 local function DPS()
+    --Mind Blast Cast
+    if Hastar and not Player.Moving and Setting("Mind Blast") and (not MeleeAggro or Setting("Ignore Melee Aggro"))  and Power > Setting("Mana Cut Off") and Spell.MindBlast:IsReady() then
+        return smartRecast("MindBlast",Target)
+    end 
     --Shadow Word Pain Spread
     if Setting("Shadow Word: Pain") then
         for _, Unit in ipairs(Player40Y) do
@@ -139,16 +143,12 @@ local function DPS()
     if Hastar and not Player.Moving and Setting("Holy Fire") and Spell.HolyFire:IsReady() and Power > Setting("Mana Cut Off") and not Debuff.HolyFire:Exist(Target) then 
         return smartRecast("HolyFire",Target)
     end
-    --Mind Blast Cast
-    if Hastar and not Player.Moving and Setting("Mind Blast") and (not MeleeAggro or Setting("Ignore Melee Aggro"))  and Power > Setting("Mana Cut Off") and Spell.MindBlast:IsReady() then
-            return smartRecast("MindBlast",Target)
-    end
     --Smite Cast
     if Hastar and not Player.Moving and Setting("Smite") and (not MeleeAggro or Setting("Ignore Melee Aggro")) and Power > Setting("Mana Cut Off") then
         FiveSecondRuleTime = DMW.Time return Spell.Smite:Cast(Target)
     end
     -- Auto Wand Management
-    if Hastar and not Player.Moving and not IsAutoRepeatSpell(Spell.Shoot.SpellName) and (DMW.Time - ShootTime) > 0.3 then
+    if Hastar and not Player.Moving and not DMW.Helpers.Queue.Spell and not IsAutoRepeatSpell(Spell.Shoot.SpellName) and (DMW.Time - ShootTime) > 0.7 then
         ShootTime = DMW.Time
         return Spell.Shoot:Cast(Target)
     end
