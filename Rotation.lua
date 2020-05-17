@@ -158,7 +158,7 @@ local function DEF()
     --Lulwtf
     if Setting("Fuck Yeah") then
         for _, Unit in pairs(DMW.Units) do
-            if Unit.Player and Unit.Distance < 30 and Unit:LineOfSight() and not Buff.PowerWordFortitude:Exist(Unit) and not Buff.PrayerOfFortitude:Exist(Unit) then
+            if Unit.Player and Unit.Level > 1 and Unit.Distance < 30 and Unit:LineOfSight() and not Buff.PowerWordFortitude:Exist(Unit) and not Buff.PrayerOfFortitude:Exist(Unit) then
                 return smartRecast("PowerWordFortitude",Unit,Setting("Fort Rank"))
             end
         end
